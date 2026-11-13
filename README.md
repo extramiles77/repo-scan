@@ -2,6 +2,8 @@
 
 <p align="center"><img src="docs/logo.png" alt="Repo Scan" width="280"></p>
 
+<p align="center"><img src="docs/hero.svg" width="1200" alt="Animasi Repo Scan: kucing pixel memeriksa file repo satu per satu tanpa menjalankan kodenya, menandai SKILL.md, logo.png, index.js dan package.json sebagai berbahaya, lalu memberi vonis BAHAYA: jangan diinstall."></p>
+
 **Cek dulu, baru install.** Repo Scan memeriksa repository GitHub, folder lokal, atau file `.zip`
 (skill, plugin, MCP server, aplikasi, apa saja) untuk mencari kode berbahaya **tanpa menjalankan
 kodenya**. Hasilnya berupa vonis yang jelas dan laporan visual.
@@ -396,6 +398,7 @@ repo-scan/
 ├── tests/test_repo_scan.py  # uji otomatis
 ├── tools/build.sh           # membuat ulang isi dist/
 ├── tools/benchmark.py       # mengukur akurasi deteksi
+├── tools/build_hero.py      # membuat ulang animasi docs/hero.svg & docs/hero.en.svg
 ├── CHANGELOG.md
 ├── README.md / README.en.md   # dokumentasi (Indonesia / Inggris)
 └── docs/                    # logo, ikon, gambar README, contoh laporan (GitHub Pages)

@@ -2,6 +2,8 @@
 
 <p align="center"><img src="docs/logo.png" alt="Repo Scan" width="280"></p>
 
+<p align="center"><img src="docs/hero.en.svg" width="1200" alt="Repo Scan animation: a pixel cat inspects a repository file by file without running any code, flags SKILL.md, logo.png, index.js and package.json as malicious, and delivers the verdict DANGER: do not install."></p>
+
 **Check first, install later.** Repo Scan inspects a GitHub repository, a local folder, or a `.zip`
 file (skills, plugins, MCP servers, apps, anything) for malicious code **without running it**. You get
 a clear verdict and a visual report.
@@ -398,6 +400,7 @@ repo-scan/
 ├── tests/test_repo_scan.py  # automated tests
 ├── tools/build.sh           # rebuilds dist/
 ├── tools/benchmark.py       # measures detection accuracy
+├── tools/build_hero.py      # regenerates the docs/hero.svg & docs/hero.en.svg animation
 ├── CHANGELOG.md
 ├── README.md / README.en.md # documentation (Indonesian / English)
 └── docs/                    # logo, icon, README images, sample report (GitHub Pages)
