@@ -1,22 +1,20 @@
+<p align="center"><b>Bahasa Indonesia</b> · <a href="README.en.md">English</a></p>
+
 <p align="center"><img src="docs/logo.png" alt="Repo Scan" width="280"></p>
 
 **Cek dulu, baru install.** Repo Scan memeriksa repository GitHub, folder lokal, atau file `.zip` —
 skill, plugin, MCP server, aplikasi, apa saja — untuk mencari kode berbahaya **tanpa menjalankan
 kodenya**. Hasilnya berupa vonis yang jelas dan laporan visual.
 
-![Contoh laporan Repo Scan](docs/report-preview.png)
+[![Contoh laporan Repo Scan](docs/report-preview.png)](https://extramiles77.github.io/repo-scan/contoh-laporan-repo-jahat.html)
+
+<p align="center"><a href="https://extramiles77.github.io/repo-scan/contoh-laporan-repo-jahat.html"><b>▶ Lihat contoh laporan langsung (repo jahat)</b></a></p>
 
 - Bekerja sebagai **plugin** maupun **skill** dari satu sumber yang sama.
 - Bisa dipakai di **Claude Code, Claude Cowork/Desktop, Claude.ai**, dan **AI lain** (Codex, Gemini CLI,
   Cursor, dll.), atau langsung lewat **terminal tanpa AI**.
 - Hanya butuh **Python 3.8+** dan **git**. Tanpa `pip install`, tanpa library tambahan.
 - Laporan tersedia dalam **Bahasa Indonesia** dan **English** (`--lang en`).
-
-> **English:** Repo Scan is a static security scanner for GitHub repos, folders and zips — Claude skills
-> & plugins, MCP servers, or any app. It never runs the code. It flags data exfiltration, install-time
-> scripts, obfuscation, credential theft, ransomware, prompt injection, risky hooks/MCP configs,
-> malicious dependencies, suspicious repo reputation and payloads hidden in git history, then produces
-> an HTML/Markdown report (`--lang en`). Works as a Claude plugin, a skill, a CLI, or a GitHub Action.
 
 ---
 
@@ -399,7 +397,8 @@ repo-scan/
 ├── tools/build.sh           # membuat ulang isi dist/
 ├── tools/benchmark.py       # mengukur akurasi deteksi
 ├── CHANGELOG.md
-└── docs/                    # logo, ikon, social preview, gambar README
+├── README.md / README.en.md   # dokumentasi (Indonesia / Inggris)
+└── docs/                    # logo, ikon, gambar README, contoh laporan (GitHub Pages)
 ```
 
 ---
