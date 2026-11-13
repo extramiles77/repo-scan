@@ -1,0 +1,13 @@
+{
+  "name": "extramiles77",
+  "owner": { "name": "extramiles77" },
+  "metadata": { "description": "Plugin & skill dari extramiles77" },
+  "plugins": [
+    {
+      "name": "repo-scan",
+      "source": "./",
+      "description": "Scan keamanan statis repo GitHub/folder/zip sebelum diinstall.",
+      "version": "0.3.0"
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+---
+description: Repo Scan — scan a repository for dangerous code before installing it
+alwaysApply: false
+---
+When asked to scan or audit a repository for safety, follow `skills/repo-scan/SKILL.md` and use
+`skills/repo-scan/scripts/repo_scan.py`. Never execute code from the scanned repository.

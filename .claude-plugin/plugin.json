@@ -1,0 +1,10 @@
+{
+  "name": "repo-scan",
+  "version": "0.3.0",
+  "description": "Repo Scan — scan keamanan statis untuk repo GitHub/folder/zip (skill, plugin, MCP server, aplikasi) sebelum diinstall: koneksi mencurigakan, pencurian data, kode tersamar, ransomware, hooks, prompt injection, dependensi berbahaya.",
+  "author": { "name": "extramiles77" },
+  "homepage": "https://github.com/extramiles77/repo-scan",
+  "repository": "https://github.com/extramiles77/repo-scan",
+  "license": "MIT",
+  "keywords": ["security", "github", "scan", "malware", "supply-chain", "skill", "plugin", "mcp"]
+}

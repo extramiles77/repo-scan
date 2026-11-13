@@ -1,0 +1,107 @@
+name: "Repo Scan"
+description: "Static security scan for repositories, skills, plugins and MCP servers — reads code, never executes it."
+author: "extramiles77"
+branding:
+  icon: "shield"
+  color: "purple"
+
+inputs:
+  target:
+    description: "What to scan: '.', a sub-folder, a GitHub URL, or a .zip"
+    default: "."
+  fail-on:
+    description: "Fail the job if any finding is at or above this level (critical, high, medium, low). Empty = never fail."
+    default: "critical"
+  osv:
+    description: "Check dependencies against the OSV vulnerability & malware database"
+    default: "true"
+  deep-deps:
+    description: "Download & scan this many direct npm/PyPI dependencies (0 = off)"
+    default: "0"
+  diff-base:
+    description: "Only flag findings that are new compared with this ref (e.g. the PR base branch). Empty = full scan."
+    default: ""
+  lang:
+    description: "Report language: id or en"
+    default: "en"
+  comment:
+    description: "Post the summary as a pull-request comment (needs pull-requests: write)"
+    default: "false"
+  github-token:
+    description: "Token used for the PR comment"
+    default: ${{ github.token }}
+  args:
+    description: "Extra arguments passed to repo_scan.py"
+    default: ""
+
+outputs:
+  verdict:
+    description: "Automatic verdict (BAHAYA / WASPADA / PERLU DICEK / RISIKO RENDAH)"
+    value: ${{ steps.scan.outputs.verdict }}
+  report-dir:
+    description: "Folder containing report.html, report.md and findings.json"
+    value: ${{ steps.scan.outputs.report_dir }}
+
+runs:
+  using: "composite"
+  steps:
+    - name: Fetch base ref for diff
+      if: ${{ inputs.diff-base != '' }}
+      shell: bash
+      run: git fetch --no-tags --prune origin "+refs/heads/${{ inputs.diff-base }}:refs/remotes/origin/${{ inputs.diff-base }}" || true
+
+    - name: Run Repo Scan
+      id: scan
+      shell: bash
+      env:
+        RS_TARGET: ${{ inputs.target }}
+        RS_FAIL_ON: ${{ inputs.fail-on }}
+        RS_OSV: ${{ inputs.osv }}
+        RS_DEEP: ${{ inputs.deep-deps }}
+        RS_DIFF: ${{ inputs.diff-base }}
+        RS_LANG: ${{ inputs.lang }}
+        RS_ARGS: ${{ inputs.args }}
+      run: |
+        OUT="$RUNNER_TEMP/repo-scan"
+        set -- scan "$RS_TARGET" --out "$OUT" --lang "$RS_LANG"
+        [ "$RS_OSV" = "true" ] && set -- "$@" --osv
+        [ "$RS_DEEP" != "0" ] && [ -n "$RS_DEEP" ] && set -- "$@" --deep-deps "$RS_DEEP"
+        [ -n "$RS_DIFF" ] && set -- "$@" --diff "origin/$RS_DIFF..HEAD"
+        [ -n "$RS_FAIL_ON" ] && set -- "$@" --fail-on "$RS_FAIL_ON"
+        set +e
+        python3 -I "$GITHUB_ACTION_PATH/skills/repo-scan/scripts/repo_scan.py" "$@" $RS_ARGS > "$RUNNER_TEMP/repo-scan.json"
+        CODE=$?
+        set -e
+        cat "$RUNNER_TEMP/repo-scan.json"
+        VERDICT=$(python3 -c "import json,sys;print(json.load(open(sys.argv[1]))['auto_level'])" "$RUNNER_TEMP/repo-scan.json" 2>/dev/null || echo "ERROR")
+        echo "verdict=$VERDICT" >> "$GITHUB_OUTPUT"
+        echo "report_dir=$OUT" >> "$GITHUB_OUTPUT"
+        echo "exit_code=$CODE" >> "$GITHUB_OUTPUT"
+        [ -f "$OUT/report.md" ] && cat "$OUT/report.md" >> "$GITHUB_STEP_SUMMARY"
+        if [ "$CODE" != "0" ] && [ "$CODE" != "2" ]; then exit "$CODE"; fi
+
+    - name: Upload report
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: repo-scan-report
+        path: ${{ steps.scan.outputs.report_dir }}
+        if-no-files-found: ignore
+
+    - name: Comment on pull request
+      if: ${{ inputs.comment == 'true' && github.event_name == 'pull_request' }}
+      shell: bash
+      env:
+        GH_TOKEN: ${{ inputs.github-token }}
+        PR: ${{ github.event.pull_request.number }}
+        OUT: ${{ steps.scan.outputs.report_dir }}
+      run: |
+        head -c 60000 "$OUT/report.md" > "$RUNNER_TEMP/comment.md"
+        gh pr comment "$PR" --repo "$GITHUB_REPOSITORY" --body-file "$RUNNER_TEMP/comment.md" || echo "Could not comment on PR"
+
+    - name: Enforce fail-on
+      if: ${{ steps.scan.outputs.exit_code == '2' }}
+      shell: bash
+      run: |
+        echo "::error::Repo Scan found issues at or above '${{ inputs.fail-on }}' (verdict: ${{ steps.scan.outputs.verdict }})"
+        exit 1
