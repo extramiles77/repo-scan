@@ -128,8 +128,8 @@ git clone https://github.com/extramiles77/repo-scan.git
 
 | AI | How |
 |---|---|
-| **Codex CLI** | Copy `skills/repo-scan` to `~/.codex/skills/repo-scan` (versions with skills support), or open this repo folder — `AGENTS.md` is read automatically. |
-| **Gemini CLI** | Open this repo folder — `GEMINI.md` is read automatically. Or copy the contents of `GEMINI.md` into your project's context file. |
+| **Codex CLI** | Copy `skills/repo-scan` to `~/.codex/skills/repo-scan` (versions with skills support), or open this repo folder and `AGENTS.md` is read automatically. |
+| **Gemini CLI** | Open this repo folder and `GEMINI.md` is read automatically. Or copy the contents of `GEMINI.md` into your project's context file. |
 | **Cursor** | A rule is provided at `.cursor/rules/repo-scan.mdc`. Copy it into your project if needed. |
 | **Other agents** | Instruct: *"Follow `skills/repo-scan/SKILL.md` to scan `<url>`."* |
 | **AI without terminal access** (plain ChatGPT/Claude web) | Run the scanner yourself (see the next section), then upload `findings.json` + `skills/repo-scan/references/review-guide.md` and ask the AI to review them. |
@@ -162,13 +162,13 @@ The skill also activates automatically when you write, for example:
 
 - "Is this GitHub repo safe to install? https://github.com/owner/repo"
 - "Check this plugin before I install it."
-- "Audit this MCP server — does it connect to any strange websites?"
+- "Audit this MCP server: does it connect to any strange websites?"
 - "Scan repo https://github.com/owner/repo, aman nggak?"
 
 ### Check an update before upgrading
 
 ```text
-/repo-scan:repo-scan https://github.com/owner/repo — what changed from v1.2 to v1.3, is it still safe?
+/repo-scan:repo-scan https://github.com/owner/repo: what changed from v1.2 to v1.3, is it still safe?
 ```
 
 ```bash
@@ -238,7 +238,7 @@ Used by the AI (or you) to give the final assessment. After writing it, run
     "F001": { "status": "confirmed", "note": "The hook runs curl to evil.xyz when a session starts." },
     "F007": { "status": "false_positive", "note": "Only an example in the documentation." }
   },
-  "domains": { "evil.xyz": "Receives user data — malicious" }
+  "domains": { "evil.xyz": "Receives user data, malicious" }
 }
 ```
 
@@ -329,10 +329,10 @@ jobs:
 | `fail-on` | `critical` | Fail the job if there is a finding at this level or higher (leave empty to never fail) |
 | `osv` | `true` | OSV check |
 | `deep-deps` | `0` | Number of dependencies to download & scan |
-| `diff-base` | — | Branch to compare with; only new findings are flagged |
+| `diff-base` | (none) | Branch to compare with; only new findings are flagged |
 | `lang` | `en` | Report language |
 | `comment` | `false` | Post the summary as a PR comment |
-| `args` | — | Extra options for `repo_scan.py` |
+| `args` | (none) | Extra options for `repo_scan.py` |
 
 Outputs: `verdict` and `report-dir`. The report is also uploaded as the `repo-scan-report` artifact and
 its summary appears on the *job summary* page.

@@ -2,8 +2,8 @@
 
 <p align="center"><img src="docs/logo.png" alt="Repo Scan" width="280"></p>
 
-**Cek dulu, baru install.** Repo Scan memeriksa repository GitHub, folder lokal, atau file `.zip` —
-skill, plugin, MCP server, aplikasi, apa saja — untuk mencari kode berbahaya **tanpa menjalankan
+**Cek dulu, baru install.** Repo Scan memeriksa repository GitHub, folder lokal, atau file `.zip`
+(skill, plugin, MCP server, aplikasi, apa saja) untuk mencari kode berbahaya **tanpa menjalankan
 kodenya**. Hasilnya berupa vonis yang jelas dan laporan visual.
 
 [![Contoh laporan Repo Scan](docs/report-preview.png)](https://extramiles77.github.io/repo-scan/contoh-laporan-repo-jahat.html)
@@ -128,8 +128,8 @@ git clone https://github.com/extramiles77/repo-scan.git
 
 | AI | Cara |
 |---|---|
-| **Codex CLI** | Salin `skills/repo-scan` ke `~/.codex/skills/repo-scan` (versi yang mendukung skills), atau buka folder repo ini — `AGENTS.md` otomatis dibaca. |
-| **Gemini CLI** | Buka folder repo ini — `GEMINI.md` otomatis dibaca. Atau salin isi `GEMINI.md` ke file konteks proyek Anda. |
+| **Codex CLI** | Salin `skills/repo-scan` ke `~/.codex/skills/repo-scan` (versi yang mendukung skills), atau buka folder repo ini, maka `AGENTS.md` otomatis dibaca. |
+| **Gemini CLI** | Buka folder repo ini, maka `GEMINI.md` otomatis dibaca. Atau salin isi `GEMINI.md` ke file konteks proyek Anda. |
 | **Cursor** | Rule sudah tersedia di `.cursor/rules/repo-scan.mdc`. Salin ke proyek Anda bila perlu. |
 | **Agen lain** | Beri instruksi: *"Ikuti `skills/repo-scan/SKILL.md` untuk memindai `<url>`."* |
 | **AI tanpa akses terminal** (ChatGPT/Claude web biasa) | Jalankan pemindai sendiri (lihat bagian berikut), lalu unggah `findings.json` + `skills/repo-scan/references/review-guide.md` dan minta AI meninjaunya. |
@@ -168,7 +168,7 @@ Skill juga aktif otomatis kalau Anda menulis misalnya:
 ### Cek update sebelum memperbarui
 
 ```text
-/repo-scan:repo-scan https://github.com/owner/repo — apa yang berubah dari v1.2 ke v1.3, masih aman?
+/repo-scan:repo-scan https://github.com/owner/repo, apa yang berubah dari v1.2 ke v1.3, masih aman?
 ```
 
 ```bash
@@ -236,7 +236,7 @@ Dipakai AI (atau Anda sendiri) untuk memberi penilaian akhir. Setelah ditulis, j
     "F001": { "status": "confirmed", "note": "Hook menjalankan curl ke evil.xyz saat sesi dimulai." },
     "F007": { "status": "false_positive", "note": "Hanya contoh di dokumentasi." }
   },
-  "domains": { "evil.xyz": "Menerima data pengguna — berbahaya" }
+  "domains": { "evil.xyz": "Menerima data pengguna, berbahaya" }
 }
 ```
 
@@ -327,10 +327,10 @@ jobs:
 | `fail-on` | `critical` | Gagalkan job bila ada temuan setingkat ini atau lebih (kosongkan agar tidak pernah gagal) |
 | `osv` | `true` | Cek OSV |
 | `deep-deps` | `0` | Jumlah dependensi yang diunduh & dipindai |
-| `diff-base` | — | Branch pembanding; hanya temuan baru yang ditandai |
+| `diff-base` | (kosong) | Branch pembanding; hanya temuan baru yang ditandai |
 | `lang` | `en` | Bahasa laporan |
 | `comment` | `false` | Kirim ringkasan sebagai komentar PR |
-| `args` | — | Opsi tambahan untuk `repo_scan.py` |
+| `args` | (kosong) | Opsi tambahan untuk `repo_scan.py` |
 
 Output: `verdict` dan `report-dir`. Laporan juga diunggah sebagai artifact `repo-scan-report` dan
 ringkasannya tampil di halaman *job summary*.
